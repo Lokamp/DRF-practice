@@ -21,6 +21,7 @@ class Command(BaseCommand):
     help = 'Импорт трех моделей - items, users, reviews'
 
     def handle(self, *args, **options):
+        Path(BASE_DIR, 'media', 'image').mkdir(parents=True, exist_ok=True)
         model_user_data = requests.get(url=URL_USERS).json()
         if model_user_data:
             print(f'{start_color}Начинается импорт для модели User...{end_color}')
