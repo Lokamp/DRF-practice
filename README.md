@@ -3,7 +3,7 @@
 Небольшое приложение, которое требуется реализовать на курсе Stepik Academy.
 
 **Что реализовано:**
-- Развернуто стандартное прилоджение Django
+- Развернуто стандартное приложение Django
 - Установлен Django Rest Framework, requests, pillow, pathlib
 - Созданы следующие модели: Item, User, Reviews
 - Написан скрипт импорта в базу данных в формате Django Management Command
