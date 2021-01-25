@@ -12,7 +12,7 @@ def get_item_view(request, pk):
         'id': item.id,
         'title': item.title,
         'description': item.description,
-        'image': f'http://{request.get_host()}{item.image.url}',
+        'image': request.build_absolute_uri(item.image.url),
         'weight': item.weight,
         'price': item.price
     })

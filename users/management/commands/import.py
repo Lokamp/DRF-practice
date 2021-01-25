@@ -13,12 +13,12 @@ URL_USERS = 'https://raw.githubusercontent.com/stepik-a-w/drf-project-boxes/mast
 URL_REVIEW = 'https://raw.githubusercontent.com/stepik-a-w/drf-project-boxes/master/reviews.json'
 URL_ITEM = 'https://raw.githubusercontent.com/stepik-a-w/drf-project-boxes/master/foodboxes.json'
 
-start_color = '\033[34m'  # Синий цвет, начальная точка. Сугубо для оформления вывода.
-end_color = '\033[0m'  # Синий цвет, конечная точка.  Сугубо для оформления вывода.
+start_color = '\033[34m'  # Blue colour, starting point.
+end_color = '\033[0m'  # Blue colour, end point.
 
 
 class Command(BaseCommand):
-    help = 'Импорт трех моделей - items, users, reviews'
+    help = 'import models - items, users, reviews'
 
     def handle(self, *args, **options):
         Path(BASE_DIR, 'media', 'image').mkdir(parents=True, exist_ok=True)
