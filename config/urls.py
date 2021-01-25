@@ -10,7 +10,7 @@ api_urlpatterns = [
 ]
 
 urlpatterns = [
-    path('api/v1/', include(api_url)),
+    path('api/v1/', include(api_urlpatterns)),
     path('admin/', admin.site.urls)
 ]
 
