@@ -4,6 +4,11 @@ from config import settings
 
 
 class Review(models.Model):
+    class ReviewStatusChoices(models.TextChoices):
+        MODERATION = 'MOD', 'На модерации'
+        PUBLISHED = 'PUB', 'Опубликован'
+        REJECTED = 'REJ', 'Отклонен'
+
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -20,7 +25,9 @@ class Review(models.Model):
         verbose_name='Дата публикации'
     )
     status = models.CharField(
-        max_length=20,
+        max_length=3,
+        choices=ReviewStatusChoices.choices,
+        default=ReviewStatusChoices.MODERATION,
         verbose_name='Статус публикации'
     )
 

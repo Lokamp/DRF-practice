@@ -85,7 +85,7 @@ class Command(BaseCommand):
                         'description': item['description'],
                         'image': f'image/{counter_two}.jpg',
                         'weight': item['weight_grams'],
-                        'price': float(item['price'])
+                        'price': item['price']
                     }
                 )
             print('Импорт для модели Item прошел успешно!')
