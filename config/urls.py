@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-api_url = [
+api_urlpatterns = [
     path('items/', include('items.urls')),
     path('reviews/', include('reviews.urls')),
     path('users/', include('users.urls'))
