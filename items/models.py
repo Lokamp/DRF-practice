@@ -6,7 +6,9 @@ class Item(models.Model):
         max_length=220,
         verbose_name='Заголовок'
     )
-    description = models.TextField()
+    description = models.TextField(
+        verbose_name='Описание'
+    )
     image = models.ImageField(
         upload_to='image',
         verbose_name='Изображение'
@@ -15,7 +17,9 @@ class Item(models.Model):
         verbose_name='Вес'
     )  # Вес в граммах
     price = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name='Цена'
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Цена'
     )
 
     def __str__(self):
