@@ -7,7 +7,8 @@ from items.models import Item
 class Cart(models.Model):
     items = models.ManyToManyField(
         Item,
-        through='CartItem'
+        through='CartItem',
+        related_name="items_in_cart",
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -21,13 +22,11 @@ class CartItem(models.Model):
     item = models.ForeignKey(
         Item,
         on_delete=models.CASCADE,
-        related_name="items",
-        verbose_name='Пользователь'
+        verbose_name='Товар'
     )
     cart = models.ForeignKey(
-        to=Cart,
+        Cart,
         on_delete=models.CASCADE,
-        related_name="carts",
         verbose_name='Корзина'
     )
     quantity = models.PositiveIntegerField(
