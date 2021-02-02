@@ -19,26 +19,25 @@ class ItemSerializer(ModelSerializer):
 
 
 class CartItemSerializer(ModelSerializer):
-    item = ItemSerializer(required=False)
+    item_object = ItemSerializer(required=False, read_only=True, source='item')
 
     class Meta:
         model = CartItem
         fields = [
             'id',
+            'item_object',
             'item',
-            'item_id',
             'quantity',
-            'price',
+            'price'
         ]
 
-        extra_kwargs = {'price': {'required': False}}
+        read_only_fields = [
+            'price'
+        ]
 
-        # def create(self):
-        #     Cart.objects.get_or_create()
-        #     CurrentUserDefault()
 
 class CartSerializer(ModelSerializer):
-    items = CartItemSerializer(source='cart', many=True)
+    items = CartItemSerializer(source='cart_items', many=True)
 
     class Meta:
         model = Cart

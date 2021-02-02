@@ -35,7 +35,7 @@ class UserRegSerializer(ModelSerializer):
             'address'
         ]
 
-        extra_kwargs = {'id': {'read_only': True}}
+        # extra_kwargs = {'id': {'read_only': True}}
 
 
 class UserCurrentSerializer(ModelSerializer):

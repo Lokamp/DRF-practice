@@ -12,6 +12,8 @@ class UserRegViewSet(CreateAPIView):
 
     def perform_create(self, serializer):
         password = make_password(self.request.data['password'])
+        # user = serializer.save
+        # user.set_password()
         serializer.save(password=password)
 
 

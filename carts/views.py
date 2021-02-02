@@ -1,12 +1,10 @@
+from django.http import Http404
 from rest_framework import mixins
-from rest_framework.generics import RetrieveAPIView, ListAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from carts.models import Cart, CartItem
 from carts.serializers import CartSerializer, CartItemSerializer
-from items.models import Item
-from users.models import User
 
 
 class CartViewSet(mixins.ListModelMixin,
@@ -15,23 +13,34 @@ class CartViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Cart.objects.filter(user_id=self.request.user)
+        queryset = Cart.objects.filter(user=self.request.user)
         return queryset
 
 
 class CartItemViewSet(ModelViewSet):
+    queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        queryset = get_object_or_404(Cart, user=self.request.user)
-        # user = Cart.objects.get(user_id=self.request.user)
-        # queryset = CartItem.objects.filter(cart_id=user)
-        print(queryset)
-        return queryset.cart.all()
+    def get_cart(self):
+        cart = Cart.objects.filter(user=self.request.user).latest('id')
+        if not cart:
+            Cart.objects.create(user=self.request.user)
+        return cart
 
-    def get_object(self):
-        cart = get_object_or_404(Cart, user=self.request.user)
-        id = self.kwargs['pk']
-        cartitem = get_object_or_404(cart.cart, pk=id)
-        return cartitem
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['cart'] = self.get_cart()
+        return context
+
+    def get_queryset(self):
+        return super().get_queryset().filter(cart=self.get_cart())
+
+    def perform_create(self, serializer):
+        cart_item = CartItem(**serializer.validated_data)
+        print(CartItem.objects.filter(cart=self.get_cart(), item=cart_item.item).exists())
+        if CartItem.objects.filter(cart=self.get_cart(), item=cart_item.item).exists():
+            raise Http404
+        cart_item.cart = self.get_cart()
+        cart_item.price = cart_item.item.price
+        cart_item.save()
