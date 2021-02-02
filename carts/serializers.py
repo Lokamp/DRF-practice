@@ -1,34 +1,44 @@
-from rest_framework.fields import ListField, SerializerMethodField, ReadOnlyField, CharField
-from rest_framework.relations import PrimaryKeyRelatedField, StringRelatedField, SlugRelatedField
 from rest_framework.serializers import ModelSerializer
 
 from items.models import Item
 from .models import Cart, CartItem
 
 
-class ItemCartSerializer(ModelSerializer):
+class ItemSerializer(ModelSerializer):
     class Meta:
+
         model = Item
-        fields = '__all__'
-
-
-class CartItemSerializer(ModelSerializer):
-    item = ItemCartSerializer()
-
-    class Meta:
-        model = CartItem
-
         fields = [
             'id',
-            'item',
-            'quantity',
-            'price',
-
+            'title',
+            'description',
+            'image',
+            'weight',
+            'price'
         ]
 
 
+class CartItemSerializer(ModelSerializer):
+    item = ItemSerializer(required=False)
+
+    class Meta:
+        model = CartItem
+        fields = [
+            'id',
+            'item',
+            'item_id',
+            'quantity',
+            'price',
+        ]
+
+        extra_kwargs = {'price': {'required': False}}
+
+        # def create(self):
+        #     Cart.objects.get_or_create()
+        #     CurrentUserDefault()
+
 class CartSerializer(ModelSerializer):
-    items = CartItemSerializer(source='cartitem_set', many=True)
+    items = CartItemSerializer(source='cart', many=True)
 
     class Meta:
         model = Cart

@@ -22,12 +22,14 @@ class CartItem(models.Model):
     item = models.ForeignKey(
         Item,
         on_delete=models.CASCADE,
-        verbose_name='Товар'
+        verbose_name='Товар',
+        related_name='item'
     )
     cart = models.ForeignKey(
         Cart,
         on_delete=models.CASCADE,
-        verbose_name='Корзина'
+        verbose_name='Корзина',
+        related_name='cart'
     )
     quantity = models.PositiveIntegerField(
         verbose_name='Количество'
@@ -35,11 +37,7 @@ class CartItem(models.Model):
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        verbose_name='Цена'
+        verbose_name='Цена',
+        blank=True,
+        null=True
     )
-
-
-
-
-
-
