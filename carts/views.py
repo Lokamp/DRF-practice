@@ -5,16 +5,16 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from carts.models import Cart, CartItem
 from carts.serializers import CartSerializer, CartItemSerializer
+from items.models import Item
 
 
-class CartViewSet(mixins.ListModelMixin,
-                  GenericViewSet):
+class CartViewSet(mixins.ListModelMixin, GenericViewSet):
+    queryset = Cart.objects.all()
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        queryset = Cart.objects.filter(user=self.request.user)
-        return queryset
+    def get_object(self):
+        return super().get_queryset().filter(user=self.request.user)
 
 
 class CartItemViewSet(ModelViewSet):
@@ -23,24 +23,26 @@ class CartItemViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_cart(self):
-        cart = Cart.objects.filter(user=self.request.user).latest('id')
-        if not cart:
-            Cart.objects.create(user=self.request.user)
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
         return cart
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['cart'] = self.get_cart()
-        return context
+    @staticmethod
+    def get_item(pk):
+        return Item.objects.get(pk=pk)
 
     def get_queryset(self):
         return super().get_queryset().filter(cart=self.get_cart())
 
     def perform_create(self, serializer):
-        cart_item = CartItem(**serializer.validated_data)
-        print(CartItem.objects.filter(cart=self.get_cart(), item=cart_item.item).exists())
-        if CartItem.objects.filter(cart=self.get_cart(), item=cart_item.item).exists():
+        print(serializer)
+        print(serializer.__dict__)
+        print(self.request.data)
+        if CartItem.objects.filter(
+            cart=self.get_cart(),
+            item=self.get_item(self.request.data['item'])
+        ).exists():
             raise Http404
-        cart_item.cart = self.get_cart()
-        cart_item.price = cart_item.item.price
-        cart_item.save()
+        serializer.save(
+            cart=self.get_cart(),
+            price=self.get_item(self.request.data['item']).price
+        )

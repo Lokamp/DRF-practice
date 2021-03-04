@@ -41,3 +41,7 @@ class CartItem(models.Model):
         blank=True,
         null=True
     )
+
+    @property
+    def total_price(self):
+        return self.quantity * self.price

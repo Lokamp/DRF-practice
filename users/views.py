@@ -1,5 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
 from users.models import User
@@ -12,8 +13,6 @@ class UserRegViewSet(CreateAPIView):
 
     def perform_create(self, serializer):
         password = make_password(self.request.data['password'])
-        # user = serializer.save
-        # user.set_password()
         serializer.save(password=password)
 
 
@@ -21,6 +20,7 @@ class UserCurrentViewSet(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserCurrentSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_object(self):
         return self.request.user

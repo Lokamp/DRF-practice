@@ -1,4 +1,4 @@
-from rest_framework.fields import CharField, EmailField, HiddenField, CurrentUserDefault
+from rest_framework.fields import CharField, EmailField
 from rest_framework.serializers import ModelSerializer
 from rest_framework.validators import UniqueValidator
 
@@ -34,8 +34,6 @@ class UserRegSerializer(ModelSerializer):
             'phone_number',
             'address'
         ]
-
-        # extra_kwargs = {'id': {'read_only': True}}
 
 
 class UserCurrentSerializer(ModelSerializer):
