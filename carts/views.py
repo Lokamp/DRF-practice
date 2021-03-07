@@ -1,5 +1,6 @@
 from django.http import Http404
-from rest_framework import mixins
+from rest_framework import mixins, viewsets, generics
+from rest_framework.generics import GenericAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
@@ -8,7 +9,8 @@ from carts.serializers import CartSerializer, CartItemSerializer
 from items.models import Item
 
 
-class CartViewSet(mixins.ListModelMixin, GenericViewSet):
+class CartViewSet(mixins.ListModelMixin,
+                  GenericViewSet):
     queryset = Cart.objects.all().order_by('id')
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
