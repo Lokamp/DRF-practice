@@ -1,6 +1,5 @@
 from django.http import Http404
-from rest_framework import mixins, viewsets, generics
-from rest_framework.generics import GenericAPIView, RetrieveAPIView
+from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
