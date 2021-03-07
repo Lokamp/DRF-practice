@@ -43,7 +43,6 @@ class CartItemSerializer(ModelSerializer):
 
 class CartSerializer(ModelSerializer):
     items = CartItemSerializer(source='cart_items', many=True)
-    # total_cost = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Cart

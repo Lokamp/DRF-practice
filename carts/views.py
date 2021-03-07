@@ -16,13 +16,6 @@ class CartViewSet(mixins.ListModelMixin, GenericViewSet):
     def get_object(self):
         return super().get_queryset().filter(user=self.request.user)
 
-    # def perform_create(self, serializer):
-    #     cart = super().get_queryset().filter(user=self.request.user)
-    #     print(cart)
-    #     items = cart.cart_items.all()
-    #     total_cost = sum([price.total_price for price in items])
-    #     serializer.save(total_cost=total_cost)
-
 
 class CartItemViewSet(ModelViewSet):
     queryset = CartItem.objects.all()
@@ -41,11 +34,6 @@ class CartItemViewSet(ModelViewSet):
         return super().get_queryset().filter(cart=self.get_cart())
 
     def perform_create(self, serializer):
-        # print(serializer)
-        # print('_____________')
-        # print(serializer.__dict__)
-        # print('_____________')
-        # print(self.request.data)
         if CartItem.objects.filter(
             cart=self.get_cart(),
             item=self.get_item(self.request.data['item'])
