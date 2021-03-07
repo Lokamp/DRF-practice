@@ -17,6 +17,11 @@ class Cart(models.Model):
         verbose_name='Пользователь'
     )
 
+    @property
+    def total_cost(self):
+        items = self.cart_items.all()
+        return sum([price.total_price for price in items])
+
 
 class CartItem(models.Model):
     item = models.ForeignKey(
@@ -41,6 +46,9 @@ class CartItem(models.Model):
         blank=True,
         null=True
     )
+
+    def __str__(self):
+        return f'{self.item.title} пользователя {self.cart.user}'
 
     @property
     def total_price(self):

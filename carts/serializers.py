@@ -1,8 +1,6 @@
-from rest_framework.fields import EmailField, ReadOnlyField, ModelField
 from rest_framework.serializers import ModelSerializer
 
 from items.models import Item
-from users.models import User
 from .models import Cart, CartItem
 
 
@@ -19,10 +17,11 @@ class ItemSerializer(ModelSerializer):
             'price'
         ]
 
+        ref_name = None
+
 
 class CartItemSerializer(ModelSerializer):
     item_object = ItemSerializer(required=False, read_only=True, source='item')
-    email = ModelField(model_field=User.email)
 
     class Meta:
         model = CartItem
@@ -33,17 +32,21 @@ class CartItemSerializer(ModelSerializer):
             'quantity',
             'price',
             'total_price',
-            'email'
         ]
 
         read_only_fields = [
             'price',
         ]
 
+        ref_name = None
+
 
 class CartSerializer(ModelSerializer):
     items = CartItemSerializer(source='cart_items', many=True)
+    # total_cost = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Cart
-        fields = ['id', 'items']
+        fields = ['id', 'items', 'total_cost']
+
+        ref_name = None
