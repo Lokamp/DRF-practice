@@ -53,9 +53,9 @@ class Command(BaseCommand):
                     defaults={
                         'author_id': review['author'],
                         'text': review['content'],
-                        'created_at': review['created_at '],
+                        'created_at': review['created_at'],
                         'published_at':
-                            review['created_at '] if review['published_at'] == '' else review['published_at'],
+                            review['created_at'] if review['published_at'] == '' else review['published_at'],
                         'status': review['status']
                     }
                 )

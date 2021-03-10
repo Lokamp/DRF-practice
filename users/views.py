@@ -1,13 +1,26 @@
-from rest_framework.decorators import api_view
-from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
+from django.contrib.auth.hashers import make_password
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from users.models import User
+from users.serializers import UserCurrentSerializer, UserRegSerializer
 
 
-@api_view(http_method_names=['GET'])
-def get_user_view(request, pk):
-    user = get_object_or_404(User, id=pk)
-    return Response({
-        'id': user.id,
-    })
+class UserRegViewSet(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegSerializer
+
+    def perform_create(self, serializer):
+        password = make_password(self.request.data['password'])
+        serializer.save(password=password)
+
+
+class UserCurrentViewSet(RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCurrentSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+
+    def get_object(self):
+        return self.request.user

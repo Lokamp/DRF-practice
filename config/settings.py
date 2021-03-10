@@ -23,6 +23,14 @@ MEDIA_ROOT = Path(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.User'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 6,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        ],
+}
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,10 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
+    'drf_yasg',
     'items',
     'reviews',
-    'users'
+    'users',
+    'carts'
 ]
 
 MIDDLEWARE = [
@@ -97,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+SHELL_PLUS = "ipython"
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
