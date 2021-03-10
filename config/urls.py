@@ -5,7 +5,6 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework.authtoken.views import obtain_auth_token
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -28,7 +27,6 @@ api_urlpatterns = [
 urlpatterns = [
     path('api/v1/', include(api_urlpatterns)),
     path('admin/', admin.site.urls),
-    path('api/v1/users/auth/login/', obtain_auth_token, name='login')
 ]
 
 if settings.DEBUG:

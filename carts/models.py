@@ -13,7 +13,7 @@ class Cart(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="users",
+        related_name='users',
         verbose_name='Пользователь'
     )
 
@@ -42,9 +42,7 @@ class CartItem(models.Model):
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        verbose_name='Цена',
-        blank=True,
-        null=True
+        verbose_name='Цена'
     )
 
     def __str__(self):

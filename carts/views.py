@@ -10,7 +10,7 @@ from items.models import Item
 
 class CartViewSet(mixins.ListModelMixin,
                   GenericViewSet):
-    queryset = Cart.objects.all().order_by('id')
+    queryset = Cart.objects.order_by('id')
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
@@ -19,7 +19,7 @@ class CartViewSet(mixins.ListModelMixin,
 
 
 class CartItemViewSet(ModelViewSet):
-    queryset = CartItem.objects.all()
+    queryset = CartItem.objects.order_by('id')
     serializer_class = CartItemSerializer
     permission_classes = [IsAuthenticated]
 
