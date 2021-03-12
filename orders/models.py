@@ -1,5 +1,6 @@
 from django.db import models
 
+from carts.models import Cart
 from config import settings
 
 
@@ -30,12 +31,13 @@ class Order(models.Model):
         verbose_name='Адрес'
     )
     cart = models.ForeignKey(
+        Cart,
         on_delete=models.CASCADE,
         related_name='orders',
         verbose_name='Корзина'
     )
     status = models.CharField(
-        max_length=3,
+        max_length=9,
         choices=OrderStatusChoices.choices,
         default=OrderStatusChoices.CREATED,
         verbose_name='Статус публикации'
