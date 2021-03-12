@@ -19,10 +19,13 @@ class Review(models.Model):
         verbose_name='Отзыв'
     )
     created_at = models.DateField(
+        auto_now_add=True,
         verbose_name='Дата создания'
     )
     published_at = models.DateField(
-        verbose_name='Дата публикации'
+        verbose_name='Дата публикации',
+        blank=True,
+        null=True
     )
     status = models.CharField(
         max_length=3,
