@@ -35,4 +35,4 @@ class Review(models.Model):
     )
 
     def __str__(self):
-        return self.author
+        return f'{self.author}'

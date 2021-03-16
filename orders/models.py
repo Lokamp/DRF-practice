@@ -2,6 +2,7 @@ from django.db import models
 
 from carts.models import Cart
 from config import settings
+from items.models import Item
 
 
 class Order(models.Model):
@@ -10,7 +11,12 @@ class Order(models.Model):
         DELIVERED = 'DELIVERED', 'Доставлен'
         PROCESSED = 'PROCESSED', 'В процессе'
         CANCELLED = 'CANCELLED', 'Отменён'
-
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        related_name='orders',
+        verbose_name='Товар'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'

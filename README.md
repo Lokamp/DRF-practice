@@ -22,3 +22,5 @@
 
 Добавлен функционал второй недели обучения:  
 Реализованы методы исходя из [этой](https://editor.swagger.io/?url=https://gist.githubusercontent.com/k0t3n/f2207e98bdc80c81ee54dc011366f385/raw/schema.json) OpenAPI схемы.
+
+Добавлен функционал третьей недели обучения.

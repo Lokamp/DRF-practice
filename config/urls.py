@@ -19,8 +19,9 @@ schema_view = get_schema_view(
 api_urlpatterns = [
     path('items/', include('items.urls')),
     path('reviews/', include('reviews.urls')),
-    path('users/', include('users.urls')),
+    path('users/', include(('users.urls', 'users'), namespace='users')),
     path('carts/', include('carts.urls')),
+    path('orders/', include('orders.urls')),
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0))
 ]
 
