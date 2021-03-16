@@ -1,13 +1,15 @@
-from rest_framework.decorators import api_view
-from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
 from reviews.models import Review
+from reviews.serializers import ReviewSerializer
 
 
-@api_view(http_method_names=['GET'])
-def get_review_view(request, pk):
-    review = get_object_or_404(Review, id=pk)
-    return Response({
-        'id': review.id,
-    })
+class ReviewViewSet(mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    GenericViewSet):
+    queryset = Review.objects.order_by('id')
+    serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
